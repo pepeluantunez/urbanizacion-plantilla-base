@@ -14,6 +14,10 @@ param(
 
     [string]$PlantillaPath,
 
+    [string]$RepoProyecto = "",
+
+    [string]$WorkspaceCodex = "",
+
     [switch]$Sobrescribir
 )
 
@@ -22,7 +26,7 @@ $ErrorActionPreference = "Stop"
 if ([string]::IsNullOrWhiteSpace($PlantillaPath)) {
     $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
     $projectRoot = Split-Path -Parent $scriptRoot
-    $PlantillaPath = Join-Path $projectRoot "00_PLANTILLA_BASE"
+    $PlantillaPath = $projectRoot
 }
 
 function Resolve-FullPath {
@@ -47,11 +51,38 @@ function Copy-TemplateContent {
         [Parameter(Mandatory = $true)][string]$ToPath
     )
 
+    $manifestPath = Join-Path $FromPath "CONFIG\bootstrap.copy-manifest.json"
+    if (Test-Path -LiteralPath $manifestPath) {
+        $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+        foreach ($entry in $manifest.include_paths) {
+            $sourceEntry = Join-Path $FromPath $entry
+            if (-not (Test-Path -LiteralPath $sourceEntry)) {
+                continue
+            }
+
+            $targetEntry = Join-Path $ToPath $entry
+            $targetParent = Split-Path -Parent $targetEntry
+            if ($targetParent -and -not (Test-Path -LiteralPath $targetParent)) {
+                New-Item -ItemType Directory -Path $targetParent -Force | Out-Null
+            }
+
+            $sourceItem = Get-Item -LiteralPath $sourceEntry
+            if ($sourceItem -is [System.IO.DirectoryInfo]) {
+                New-Item -ItemType Directory -Path $targetEntry -Force | Out-Null
+                Copy-Item -Path (Join-Path $sourceEntry '*') -Destination $targetEntry -Recurse -Force
+            } else {
+                Copy-Item -LiteralPath $sourceEntry -Destination $targetEntry -Force
+            }
+        }
+
+        return
+    }
+
     $files = Get-ChildItem -LiteralPath $FromPath -Recurse -File |
         Where-Object {
             $_.Name -notlike "~$*" -and
             $_.Extension -notin @(".tmp", ".bak") -and
-            $_.FullName -notmatch "\\bin\\|\\obj\\"
+            $_.FullName -notmatch "\\bin\\|\\obj\\|\\\.git\\"
         }
 
     foreach ($file in $files) {
@@ -65,7 +96,7 @@ function Copy-TemplateContent {
     }
 
     $dirs = Get-ChildItem -LiteralPath $FromPath -Recurse -Directory |
-        Where-Object { $_.FullName -notmatch "\\bin\\|\\obj\\" }
+        Where-Object { $_.FullName -notmatch "\\bin\\|\\obj\\|\\\.git\\" }
     foreach ($dir in $dirs) {
         $relativeDir = $dir.FullName.Substring($FromPath.Length).TrimStart("\")
         $targetDir = Join-Path $ToPath $relativeDir
@@ -108,6 +139,8 @@ $tokenMap = @{
     "{{CLIENTE}}" = $Cliente
     "{{FECHA_INICIO}}" = $fechaText
     "{{NOMBRE_CARPETA_PROYECTO}}" = $folderName
+    "{{REPO_PROYECTO}}" = $RepoProyecto
+    "{{WORKSPACE_CODEX}}" = $WorkspaceCodex
 }
 
 $textExtensions = @(".md", ".txt", ".json", ".ps1", ".csv")

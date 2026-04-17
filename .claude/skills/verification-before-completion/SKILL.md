@@ -1,7 +1,7 @@
 ---
 name: verification-before-completion
 description: >
-  Strict closeout skill for Guadalmar project tasks. Use when a task is about to be marked complete
+  Strict closeout skill for project tasks. Use when a task is about to be marked complete
   and touches DOCX/DOCM, XLSX/XLSM, BC3/PZH, maquetacion, traceability, or mixed documentation-budget work.
   Enforce mandatory anti-mojibake checks, DOCX table and caption consistency, Excel formula preservation,
   BC3 integrity review (~C/~D/~T/~M), and explicit reporting of checks executed plus incidents.

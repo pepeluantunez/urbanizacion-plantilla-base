@@ -25,8 +25,8 @@ Se corresponden con los tokens de `CONFIG/proyecto.template.json`.
 
 | Variable                  | Descripcion                                      | Ejemplo                        |
 |---------------------------|--------------------------------------------------|--------------------------------|
-| `{{CODIGO_PROYECTO}}`     | Codigo interno del expediente                    | 535.2.2                        |
-| `{{NOMBRE_PROYECTO}}`     | Nombre completo del proyecto                     | Mejora Carretera Guadalmar     |
+| `{{CODIGO_PROYECTO}}`     | Codigo interno del expediente                    | 999.0.1                        |
+| `{{NOMBRE_PROYECTO}}`     | Nombre completo del proyecto                     | Proyecto Demo Bootstrap        |
 | `{{LOCALIDAD}}`           | Municipio donde se ubica la obra                 | Malaga                         |
 | `{{PROVINCIA}}`           | Provincia                                        | Malaga                         |
 | `{{PROMOTOR}}`            | Entidad promotora (Ayuntamiento, Junta, etc.)    | Ayuntamiento de Malaga         |

@@ -12,7 +12,7 @@ description: >
 
 Revisar coherencia normativa de documentos tecnicos del proyecto y reportar incumplimientos defendibles.
 
-## Alcance recomendado en Guadalmar
+## Alcance recomendado en el proyecto
 
 Usar como conjunto base estas rutas:
 

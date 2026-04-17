@@ -24,7 +24,7 @@ El arranque ya no debe copiar toda la plantilla a ciegas.
 - Solo se copian rutas curadas y reutilizables.
 - Quedan fuera artefactos de referencia, temporales y piezas demasiado especificas del proyecto origen.
 
-Esto permite mantener `00_PLANTILLA_BASE` como base de trabajo viva sin contaminar automaticamente cada expediente nuevo.
+Esto permite mantener este repositorio de plantilla como base de trabajo viva sin contaminar automaticamente cada expediente nuevo.
 
 ## Estandarizacion operativa incluida
 

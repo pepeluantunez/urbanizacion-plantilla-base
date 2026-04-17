@@ -1,7 +1,7 @@
 ---
 name: dispatching-parallel-agents
 description: >
-  Parallel execution skill for Guadalmar project work. Use when the user explicitly asks to use agents,
+  Parallel execution skill for project work. Use when the user explicitly asks to use agents,
   parallelize, accelerate repetitive reviews, or run strict multi-block checks in parallel.
   Split work into disjoint ownership lanes (documental, BC3, traceability, normative), merge results,
   and finish with strict closeout checks before reporting completion.

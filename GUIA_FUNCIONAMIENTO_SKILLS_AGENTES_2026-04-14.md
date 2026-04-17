@@ -1,80 +1,47 @@
-# Guía de Funcionamiento: Skills y Agentes
+# Guia de Funcionamiento: Skills y Agentes
 
 Fecha: 2026-04-14  
-Proyecto: 535.2.2 Mejora Carretera Guadalmar
+Proyecto: {{CODIGO_PROYECTO}} - {{NOMBRE_PROYECTO}}
 
-## Qué está instalado
+## Que esta instalado
 
-### Skills globales (todos tus chats)
+### Skills globales
 
 - `command-creator`
 - `session-handoff`
 - `agent-md-refactor`
 - `systematic-debugging`
 
-Ubicación: `C:\Users\USUARIO\.codex\skills\`
+Ubicacion: `C:\Users\USUARIO\.codex\skills\`
 
-### Skills locales (este proyecto)
+### Skills locales de plantilla
 
-- `535-guadalmar`
-- `auditoria-civil-completa`
-- `auditoria-civil-interactiva`
+- `pou-viario`
+- `dispatching-parallel-agents`
+- `verification-before-completion`
 
-Ubicación: `.claude\skills\`
+Ubicacion: `.claude\skills\`
 
-## Cómo funciona el sistema (orden real)
+## Como funciona el sistema
 
-1. `AGENTS.md` enruta la tarea (documental, BC3, trazabilidad, maquetación).
-2. Se activa la skill local del proyecto si aplica (contexto y reglas Guadalmar).
+1. `AGENTS.md` enruta la tarea por carril.
+2. Se activa la skill local de plantilla si aplica.
 3. Si la tarea encaja, se usan skills globales de soporte.
 4. Se ejecutan scripts de control (`tools\...`) para cierre estricto.
 
-## Tu forma de pedirlo (frases cortas)
+## Tu forma de pedirlo
 
-### Auditoría completa
-
-- "Audita civil completo en estricto."
-- "Lanza auditoría integral de proyecto."
-
-### Auditoría parcial
-
-- "Revisa solo BC3 capítulo firmes."
-- "Audita solo Anejo 13 y 17."
-- "Cruza Excel mediciones con BC3."
-
-### Trazabilidad
-
-- "Pasa trazabilidad estricta global."
-- "Pasa trazabilidad estricta Residuos y SyS."
-
-### Maquetación y coherencia
-
-- "Maqueta este anejo en estándar profesional."
+- "Pasa trazabilidad estricta."
+- "Maqueta este anejo en estandar profesional."
 - "Revisa tablas DOCX y coherencia con presupuesto."
-
-### Continuidad de sesión
-
-- "Crea handoff de esta sesión."
-- "Reanuda desde el último handoff."
-
-### Mejora del sistema
-
-- "Refactoriza AGENTS para reducir ruido."
+- "Crea handoff de esta sesion."
 - "Crea comando nuevo para [tarea repetitiva]."
 
-## Qué tienes que clicar
+## Nota
 
-Nada especial.  
-Con frase corta basta. Yo enruto automáticamente al carril/skill correcto.
+La plantilla debe adaptarse al proyecto nuevo antes de uso intensivo:
 
-## Nota importante
-
-Para que Codex detecte las skills recién instaladas en todos los chats, reinicia la app de Codex.
-
-## Limitación actual detectada
-
-La skill `session-handoff` trae scripts Python y esta máquina ahora mismo no tiene `python` en PATH.  
-Si quieres, en otra tarea te dejo resuelto:
-
-1. instalar Python, o
-2. adaptar handoff a scripts PowerShell equivalentes.
+- revisar `AGENTS.md`
+- revisar `CONFIG/trazabilidad_profiles.json`
+- revisar `.claude/skills/`
+- completar datos en `CONFIG/proyecto.template.json`
