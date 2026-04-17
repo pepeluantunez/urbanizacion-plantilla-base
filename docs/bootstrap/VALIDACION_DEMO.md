@@ -11,6 +11,11 @@ Arranque de proyecto demo desde la plantilla base:
 - cliente: `Demo Cliente`
 - destino: `.codex_tmp/bootstrap-demo`
 
+Escenario adicional con toolkit reusable:
+
+- toolkit: `urbanizacion-toolkit`
+- instalacion mediante `-ToolkitRepoPath`
+
 ## Resultado
 
 El bootstrap crea correctamente un proyecto nuevo y sustituye:
@@ -23,12 +28,18 @@ El bootstrap crea correctamente un proyecto nuevo y sustituye:
 - `{{REPO_PROYECTO}}`
 - `{{WORKSPACE_CODEX}}`
 
+Cuando se informa `-ToolkitRepoPath`, el bootstrap ademas:
+
+- instala `catalog/`, `tools/` y `scripts/` desde el toolkit reusable
+- deja visible `catalog/CATALOG.md` en el proyecto nuevo
+
 ## Controles aplicados
 
 - ausencia de `*.pkt`
 - ausencia de referencias residuales a `00_PLANTILLA_BASE`
 - ausencia de referencias residuales a `535.2.2` y `Guadalmar`
 - control rapido anti-mojibake sobre `.md`, `.json` y `.ps1`
+- comprobacion de presencia de `catalog/CATALOG.md` cuando se usa `-ToolkitRepoPath`
 
 ## Ajustes realizados durante la validacion
 
@@ -36,3 +47,4 @@ El bootstrap crea correctamente un proyecto nuevo y sustituye:
 - el copiado se apoya en `CONFIG/bootstrap.copy-manifest.json`
 - se corrigio la sobrescritura de directorios en `.claude/skills`
 - se generalizaron guias, comandos rapidos, perfiles y skills que seguian demasiado ligadas al proyecto origen
+- el bootstrap admite ya la instalacion opcional del toolkit reusable durante el arranque

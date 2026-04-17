@@ -26,6 +26,13 @@ El arranque ya no debe copiar toda la plantilla a ciegas.
 
 Esto permite mantener este repositorio de plantilla como base de trabajo viva sin contaminar automaticamente cada expediente nuevo.
 
+## Integracion opcional con toolkit reusable
+
+El bootstrap admite `-ToolkitRepoPath` para instalar al crear el proyecto el contenido compartido de `urbanizacion-toolkit`.
+
+- documentacion rapida: `docs/bootstrap/TOOLKIT_REUSABLE.md`
+- efecto esperado: el proyecto nuevo nace con `catalog/`, `tools/` y `scripts/` sincronizados desde el toolkit reusable
+
 ## Estandarizacion operativa incluida
 
 La plantilla base ya incorpora controles listos para usar en proyectos nuevos:

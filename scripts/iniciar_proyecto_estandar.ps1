@@ -18,6 +18,8 @@ param(
 
     [string]$WorkspaceCodex = "",
 
+    [string]$ToolkitRepoPath = "",
+
     [switch]$Sobrescribir
 )
 
@@ -106,6 +108,26 @@ function Copy-TemplateContent {
     }
 }
 
+function Install-ToolkitIfRequested {
+    param(
+        [Parameter(Mandatory = $true)][string]$ProyectoPath,
+        [string]$ToolkitPath
+    )
+
+    if ([string]::IsNullOrWhiteSpace($ToolkitPath)) {
+        return $false
+    }
+
+    $toolkitFullPath = Resolve-FullPath -PathValue $ToolkitPath
+    $installerPath = Join-Path $toolkitFullPath "scripts\install_project_toolkit.ps1"
+    if (-not (Test-Path -LiteralPath $installerPath)) {
+        throw "No existe el instalador del toolkit en '$installerPath'."
+    }
+
+    & $installerPath -TargetPath $ProyectoPath
+    return $true
+}
+
 try {
     $plantillaFullPath = Resolve-FullPath -PathValue $PlantillaPath
 } catch {
@@ -158,6 +180,8 @@ foreach ($file in $textFiles) {
     }
 }
 
+$toolkitInstalled = Install-ToolkitIfRequested -ProyectoPath $proyectoPath -ToolkitPath $ToolkitRepoPath
+
 Write-Host ""
 Write-Host "Proyecto creado correctamente:" -ForegroundColor Green
 Write-Host "  $proyectoPath"
@@ -165,4 +189,10 @@ Write-Host ""
 Write-Host "Siguientes pasos recomendados:"
 Write-Host "  1) Revisar $($folderName)\\CONFIG\\proyecto.template.json"
 Write-Host "  2) Completar CHECKLISTS\\01_INICIO.md"
-Write-Host "  3) Empezar el trabajo en base a ESTANDARES.md"
+if ($toolkitInstalled) {
+    Write-Host "  3) Verificar catalog\\CATALOG.md y los tools instalados desde el toolkit reusable"
+    Write-Host "  4) Empezar el trabajo en base a ESTANDARES.md"
+} else {
+    Write-Host "  3) Si procede, reinstalar toolkit reusable con -ToolkitRepoPath"
+    Write-Host "  4) Empezar el trabajo en base a ESTANDARES.md"
+}
