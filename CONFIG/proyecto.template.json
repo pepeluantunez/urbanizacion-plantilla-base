@@ -1,0 +1,10 @@
+{
+  "codigo_proyecto": "{{CODIGO_PROYECTO}}",
+  "nombre_proyecto": "{{NOMBRE_PROYECTO}}",
+  "nombre_carpeta_proyecto": "{{NOMBRE_CARPETA_PROYECTO}}",
+  "cliente": "{{CLIENTE}}",
+  "fecha_inicio": "{{FECHA_INICIO}}",
+  "repo_proyecto": "{{REPO_PROYECTO}}",
+  "workspace_codex": "{{WORKSPACE_CODEX}}",
+  "version_estandar": "1.1.0"
+}
