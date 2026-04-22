@@ -16,11 +16,16 @@
     "COMANDOS_RAPIDOS_MAQUETACION.md",
     "CONFIG",
     "CONTROL_CALIDAD",
+    "DECISIONES_PROYECTO.md",
     "DOCS - ANEJOS",
     "ENTREGABLES",
+    "ESTADO_PROYECTO.md",
     "ESTANDARES.md",
+    "FUENTES_MAESTRAS.md",
     "GUIA_FUNCIONAMIENTO_SKILLS_AGENTES_2026-04-14.md",
     "GUIA_OPERATIVA_AGENTES_STRICT_2026-04-14.md",
+    "IGNORE_DEFAULTS.md",
+    "MAPA_PROYECTO.md",
     "PACK_SKILLS_URBANIZACION_VERIFICADO_2026-04-14.md",
     "PLANNING",
     "PLANOS",
@@ -30,6 +35,8 @@
     "scripts/README.md",
     "scripts/iniciar_proyecto_estandar.ps1",
     "scripts/xml_excel_helpers.ps1",
+    "SYSTEM_RULES.md",
+    "TASK_TYPES.md",
     "tools/README.md",
     "tools/autofix_docx_captions.ps1",
     "tools/check_bc3_integrity.ps1",
@@ -45,6 +52,7 @@
     "tools/OpenXmlExcelProjectFormatter.ps1",
     "tools/run_estandar_proyecto.ps1",
     "tools/run_project_closeout.ps1",
-    "tools/run_traceability_profile.ps1"
+    "tools/run_traceability_profile.ps1",
+    "TRIAGE.md"
   ]
 }
