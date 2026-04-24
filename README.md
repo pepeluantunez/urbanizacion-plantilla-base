@@ -46,5 +46,13 @@ Que un proyecto nuevo nazca con:
 - fuentes maestras y estado operativo desde el minuto uno
 - seed minima de trazabilidad y cobertura desde el minuto uno
 
+## Guarda minima
+
+El proyecto nuevo debe poder ejecutar localmente:
+
+- `.\tools\check_machine_guard.ps1`
+
+Esta guarda valida contrato de repo y alineacion entre obra, toolkit y plantilla. El bootstrap ya la ejecuta al final salvo que se use `-SkipMachineGuard`.
+
 
 

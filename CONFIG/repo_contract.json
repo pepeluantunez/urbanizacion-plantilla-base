@@ -9,6 +9,7 @@
                            "DECISIONES_PROYECTO.md",
                            "ESTADO_PROYECTO.md",
                            "CONFIG/project_identity.json",
+                           "CONFIG/ecosystem_alignment_manifest.json",
                            "CONFIG/toolkit.lock.json",
                            "PLANNING/KANBAN.md"
                        ],

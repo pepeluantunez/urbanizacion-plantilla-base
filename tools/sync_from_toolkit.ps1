@@ -101,6 +101,8 @@ $syncTargets = @(
     @{ Src = "tools\python\mediciones_validator.py";                  Dst = "mediciones_validator.py" }
     @{ Src = "tools\automation\resolve_ecosystem_repo.ps1";           Dst = "resolve_ecosystem_repo.ps1" }
     @{ Src = "tools\automation\find_in_workspace.ps1";                Dst = "find_in_workspace.ps1" }
+    @{ Src = "tools\automation\check_ecosystem_alignment.ps1";        Dst = "check_ecosystem_alignment.ps1" }
+    @{ Src = "tools\automation\check_machine_guard.ps1";              Dst = "check_machine_guard.ps1" }
     @{ Src = "tools\bc3\check_bc3_integrity.ps1";                     Dst = "check_bc3_integrity.ps1" }
     @{ Src = "tools\bc3\check_bc3_import_parity.ps1";                 Dst = "check_bc3_import_parity.ps1" }
     @{ Src = "tools\office\check_docx_tables_consistency.ps1";        Dst = "check_docx_tables_consistency.ps1" }

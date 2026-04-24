@@ -28,5 +28,7 @@ jobs:
         run: check-jsonschema --schemafile CONFIG/schemas/project_identity.schema.json CONFIG/project_identity.json
       - name: Validate repo contract
         run: check-jsonschema --schemafile CONFIG/schemas/repo_contract.schema.json CONFIG/repo_contract.json
+      - name: Validate ecosystem alignment manifest
+        run: check-jsonschema --schemafile CONFIG/schemas/ecosystem_alignment_manifest.schema.json CONFIG/ecosystem_alignment_manifest.json
       - name: Validate toolkit lock
         run: check-jsonschema --schemafile CONFIG/schemas/toolkit.lock.schema.json CONFIG/toolkit.lock.json

@@ -24,6 +24,8 @@ param(
 
     [string]$RepoPrefix = "obra",
 
+    [switch]$SkipMachineGuard,
+
     [switch]$InicializarGit,
 
     [switch]$Sobrescribir
@@ -347,6 +349,25 @@ catch {
     Write-Warning "No se pudo sincronizar el toolkit durante el bootstrap: $_"
 }
 
+$machineGuardOk = $false
+if (-not $SkipMachineGuard) {
+    $machineGuard = Join-Path $proyectoPath 'tools\check_machine_guard.ps1'
+    if (Test-Path -LiteralPath $machineGuard) {
+        try {
+            Write-Host ""
+            Write-Host "== Guarda de maquina del proyecto ==" -ForegroundColor Cyan
+            & $machineGuard
+            $machineGuardOk = $true
+        }
+        catch {
+            throw "El bootstrap creo el proyecto, pero la guarda de maquina fallo: $_"
+        }
+    }
+    else {
+        Write-Warning "No existe tools\check_machine_guard.ps1 tras el bootstrap. La alineacion no pudo verificarse."
+    }
+}
+
 Write-Host ""
 Write-Host "Proyecto creado correctamente:" -ForegroundColor Green
 Write-Host "  $proyectoPath"
@@ -360,9 +381,21 @@ Write-Host "  2) Completar MAPA_PROYECTO.md y FUENTES_MAESTRAS.md"
 Write-Host "  3) Completar CHECKLISTS\01_INICIO.md"
 if ($toolkitSynced) {
     Write-Host "  4) Verificar los scripts compartidos sincronizados en tools\"
-    Write-Host "  5) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
+    if ($machineGuardOk) {
+        Write-Host "  5) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
+    }
+    else {
+        Write-Host "  5) Ejecutar .\tools\check_machine_guard.ps1 antes de empezar trabajo real"
+        Write-Host "  6) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
+    }
 }
 else {
     Write-Host "  4) Ejecutar manualmente powershell -File .\tools\sync_from_toolkit.ps1"
-    Write-Host "  5) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
+    if ($machineGuardOk) {
+        Write-Host "  5) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
+    }
+    else {
+        Write-Host "  5) Ejecutar .\tools\check_machine_guard.ps1 tras la sincronizacion"
+        Write-Host "  6) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
+    }
 }
