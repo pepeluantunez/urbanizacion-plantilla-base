@@ -6,5 +6,7 @@
   "fecha_inicio": "{{FECHA_INICIO}}",
   "repo_proyecto": "{{REPO_PROYECTO}}",
   "workspace_codex": "{{WORKSPACE_CODEX}}",
+  "modo_trabajo": "{{MODO_TRABAJO}}",
+  "perfil_trazabilidad_inicial": "{{TRACE_PROFILE}}",
   "version_estandar": "1.1.0"
 }

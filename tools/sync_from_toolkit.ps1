@@ -103,6 +103,7 @@ $syncTargets = @(
     @{ Src = "tools\automation\find_in_workspace.ps1";                Dst = "find_in_workspace.ps1" }
     @{ Src = "tools\automation\check_ecosystem_alignment.ps1";        Dst = "check_ecosystem_alignment.ps1" }
     @{ Src = "tools\automation\check_machine_guard.ps1";              Dst = "check_machine_guard.ps1" }
+    @{ Src = "tools\automation\update_project_foundation.ps1";        Dst = "update_project_foundation.ps1" }
     @{ Src = "tools\bc3\check_bc3_integrity.ps1";                     Dst = "check_bc3_integrity.ps1" }
     @{ Src = "tools\bc3\check_bc3_import_parity.ps1";                 Dst = "check_bc3_import_parity.ps1" }
     @{ Src = "tools\office\check_docx_tables_consistency.ps1";        Dst = "check_docx_tables_consistency.ps1" }

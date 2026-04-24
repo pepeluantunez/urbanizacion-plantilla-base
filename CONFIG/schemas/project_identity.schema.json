@@ -9,6 +9,8 @@
     "project_slug",
     "project_name",
     "workspace_name",
+    "working_mode",
+    "default_trace_profile",
     "authoritative_toolkit_repo",
     "authoritative_template_repo"
   ],
@@ -34,6 +36,14 @@
       "minLength": 1
     },
     "workspace_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "working_mode": {
+      "type": "string",
+      "enum": ["ligero", "estricto", "{{MODO_TRABAJO}}"]
+    },
+    "default_trace_profile": {
       "type": "string",
       "minLength": 1
     },

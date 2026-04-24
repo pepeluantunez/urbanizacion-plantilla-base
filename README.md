@@ -51,8 +51,19 @@ Que un proyecto nuevo nazca con:
 El proyecto nuevo debe poder ejecutar localmente:
 
 - `.\tools\check_machine_guard.ps1`
+- `.\tools\update_project_foundation.ps1`
 
 Esta guarda valida contrato de repo y alineacion entre obra, toolkit y plantilla. El bootstrap ya la ejecuta al final salvo que se use `-SkipMachineGuard`.
+
+## Arranque recomendado
+
+El comando de arranque ya admite:
+
+- modo de trabajo: `ligero` o `estricto`
+- perfil inicial de trazabilidad
+- repo y workspace sugeridos automaticamente si no se pasan a mano
+
+Despues del bootstrap, `update_project_foundation.ps1` deja `CONFIG\toolkit.lock.json` sellado con los commits reales de toolkit y plantilla.
 
 
 

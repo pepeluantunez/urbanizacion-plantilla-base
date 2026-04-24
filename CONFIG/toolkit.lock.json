@@ -1,9 +1,16 @@
 ﻿{
-  "schema_version": 1,
+  "schema_version": 2,
   "toolkit_repo": "urbanizacion-toolkit",
+  "toolkit_branch": "main",
+  "toolkit_commit": "{{TOOLKIT_COMMIT}}",
   "template_repo": "urbanizacion-plantilla-base",
+  "template_branch": "main",
+  "template_commit": "{{TEMPLATE_COMMIT}}",
   "synced_copy_allowed": false,
   "wrappers_allowed": true,
+  "foundation_mode": "{{MODO_TRABAJO}}",
+  "default_trace_profile": "{{TRACE_PROFILE}}",
+  "last_foundation_sync": "{{FOUNDATION_SYNC_AT}}",
   "authorities": {
     "global_rules": "urbanizacion-toolkit",
     "task_taxonomy": "urbanizacion-toolkit",

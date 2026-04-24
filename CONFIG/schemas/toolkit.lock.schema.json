@@ -5,9 +5,16 @@
   "required": [
     "schema_version",
     "toolkit_repo",
+    "toolkit_branch",
+    "toolkit_commit",
     "template_repo",
+    "template_branch",
+    "template_commit",
     "synced_copy_allowed",
     "wrappers_allowed",
+    "foundation_mode",
+    "default_trace_profile",
+    "last_foundation_sync",
     "authorities"
   ],
   "properties": {
@@ -19,7 +26,23 @@
       "type": "string",
       "minLength": 1
     },
+    "toolkit_branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toolkit_commit": {
+      "type": "string",
+      "minLength": 1
+    },
     "template_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template_branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template_commit": {
       "type": "string",
       "minLength": 1
     },
@@ -28,6 +51,18 @@
     },
     "wrappers_allowed": {
       "type": "boolean"
+    },
+    "foundation_mode": {
+      "type": "string",
+      "enum": ["ligero", "estricto", "{{MODO_TRABAJO}}"]
+    },
+    "default_trace_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "last_foundation_sync": {
+      "type": "string",
+      "minLength": 1
     },
     "authorities": {
       "type": "object",

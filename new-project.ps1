@@ -9,6 +9,9 @@ param(
     [string]$RepoProyecto = "",
     [string]$WorkspaceCodex = "",
     [string]$RepoPrefix = "obra",
+    [ValidateSet("ligero", "estricto")]
+    [string]$ModoTrabajo = "estricto",
+    [string]$TraceProfile = "base_general",
     [switch]$InicializarGit,
     [switch]$Sobrescribir
 )
@@ -27,6 +30,16 @@ if ([string]::IsNullOrWhiteSpace($CodigoProyecto)) {
     if ([string]::IsNullOrWhiteSpace($CodigoProyecto)) {
         throw "El codigo del proyecto es obligatorio."
     }
+}
+
+if ([string]::IsNullOrWhiteSpace($RepoProyecto)) {
+    $repoBase = ($NombreProyecto.ToLowerInvariant() -replace '[^a-z0-9]+', '-') -replace '^-+|-+$', ''
+    $codigoBase = ($CodigoProyecto.ToLowerInvariant() -replace '[^a-z0-9]+', '-') -replace '^-+|-+$', ''
+    $RepoProyecto = "{0}-{1}-{2}" -f $RepoPrefix, $codigoBase, $repoBase
+}
+
+if ([string]::IsNullOrWhiteSpace($WorkspaceCodex)) {
+    $WorkspaceCodex = $RepoProyecto
 }
 
 $plantillaRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -49,6 +62,8 @@ $bootstrapArgs = @{
     WorkspaceCodex = $WorkspaceCodex
     ToolkitRepoPath = $ToolkitRepoPath
     RepoPrefix = $RepoPrefix
+    ModoTrabajo = $ModoTrabajo
+    TraceProfile = $TraceProfile
 }
 
 if (-not [string]::IsNullOrWhiteSpace($BootstrapManifestPath)) {

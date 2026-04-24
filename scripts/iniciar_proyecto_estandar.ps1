@@ -24,6 +24,11 @@ param(
 
     [string]$RepoPrefix = "obra",
 
+    [ValidateSet('ligero', 'estricto')]
+    [string]$ModoTrabajo = 'estricto',
+
+    [string]$TraceProfile = 'base_general',
+
     [switch]$SkipMachineGuard,
 
     [switch]$InicializarGit,
@@ -314,10 +319,15 @@ $tokenMap = @{
     "{{NOMBRE_CARPETA_PROYECTO}}" = $folderName
     "{{REPO_PROYECTO}}" = $repoSlug
     "{{WORKSPACE_CODEX}}" = $workspaceName
+    "{{MODO_TRABAJO}}" = $ModoTrabajo
+    "{{TRACE_PROFILE}}" = $TraceProfile
+    "{{FOUNDATION_SYNC_AT}}" = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ssK')
+    "{{TOOLKIT_COMMIT}}" = 'PENDING_SYNC'
+    "{{TEMPLATE_COMMIT}}" = 'PENDING_SYNC'
 }
 
 $textExtensions = @(".md", ".txt", ".json", ".ps1", ".csv")
-$textFiles = Get-ChildItem -LiteralPath $proyectoPath -Recurse -File |
+$textFiles = Get-ChildItem -LiteralPath $proyectoPath -Recurse -File -ErrorAction SilentlyContinue |
     Where-Object { $textExtensions -contains $_.Extension.ToLowerInvariant() }
 
 foreach ($file in $textFiles) {
@@ -349,22 +359,22 @@ catch {
     Write-Warning "No se pudo sincronizar el toolkit durante el bootstrap: $_"
 }
 
-$machineGuardOk = $false
+$foundationOk = $false
 if (-not $SkipMachineGuard) {
-    $machineGuard = Join-Path $proyectoPath 'tools\check_machine_guard.ps1'
-    if (Test-Path -LiteralPath $machineGuard) {
+    $foundationUpdater = Join-Path $proyectoPath 'tools\update_project_foundation.ps1'
+    if (Test-Path -LiteralPath $foundationUpdater) {
         try {
             Write-Host ""
-            Write-Host "== Guarda de maquina del proyecto ==" -ForegroundColor Cyan
-            & $machineGuard
-            $machineGuardOk = $true
+            Write-Host "== Update project foundation ==" -ForegroundColor Cyan
+            & $foundationUpdater -ToolkitPath $ToolkitRepoPath -TemplatePath $plantillaFullPath -SkipToolkitSync
+            $foundationOk = $true
         }
         catch {
-            throw "El bootstrap creo el proyecto, pero la guarda de maquina fallo: $_"
+            throw "El bootstrap creo el proyecto, pero la actualizacion de foundation fallo: $_"
         }
     }
     else {
-        Write-Warning "No existe tools\check_machine_guard.ps1 tras el bootstrap. La alineacion no pudo verificarse."
+        Write-Warning "No existe tools\update_project_foundation.ps1 tras el bootstrap. La foundation no pudo verificarse."
     }
 }
 
@@ -381,21 +391,21 @@ Write-Host "  2) Completar MAPA_PROYECTO.md y FUENTES_MAESTRAS.md"
 Write-Host "  3) Completar CHECKLISTS\01_INICIO.md"
 if ($toolkitSynced) {
     Write-Host "  4) Verificar los scripts compartidos sincronizados en tools\"
-    if ($machineGuardOk) {
+    if ($foundationOk) {
         Write-Host "  5) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
     }
     else {
-        Write-Host "  5) Ejecutar .\tools\check_machine_guard.ps1 antes de empezar trabajo real"
+        Write-Host "  5) Ejecutar .\tools\update_project_foundation.ps1 antes de empezar trabajo real"
         Write-Host "  6) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
     }
 }
 else {
     Write-Host "  4) Ejecutar manualmente powershell -File .\tools\sync_from_toolkit.ps1"
-    if ($machineGuardOk) {
+    if ($foundationOk) {
         Write-Host "  5) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
     }
     else {
-        Write-Host "  5) Ejecutar .\tools\check_machine_guard.ps1 tras la sincronizacion"
+        Write-Host "  5) Ejecutar .\tools\update_project_foundation.ps1 tras la sincronizacion"
         Write-Host "  6) Abrir el proyecto en Codex y arrancar desde AGENTS.md"
     }
 }

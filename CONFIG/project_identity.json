@@ -5,6 +5,8 @@
   "project_slug": "{{REPO_PROYECTO}}",
   "project_name": "{{NOMBRE_PROYECTO}}",
   "workspace_name": "{{WORKSPACE_CODEX}}",
+  "working_mode": "{{MODO_TRABAJO}}",
+  "default_trace_profile": "{{TRACE_PROFILE}}",
   "authoritative_toolkit_repo": "urbanizacion-toolkit",
   "authoritative_template_repo": "urbanizacion-plantilla-base"
 }
