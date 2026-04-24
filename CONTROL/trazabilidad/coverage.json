@@ -1,0 +1,12 @@
+﻿{
+  "word_tables_with_excel_source_pct": 0,
+  "memoria_sections_backed_by_annex_pct": 0,
+  "bc3_concepts_with_document_support_pct": 0,
+  "outputs_with_authority_defined_pct": 0,
+  "scope": "bootstrap",
+  "generated_at": "2026-04-22",
+  "notes": [
+    "Bootstrap sin relaciones reales aun declaradas.",
+    "El proyecto debe sustituir este estado por una red seed o activa cuando ya existan fuentes vigentes."
+  ]
+}

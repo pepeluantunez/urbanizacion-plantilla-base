@@ -1,4 +1,10 @@
-﻿# Instrucciones de Proyecto
+﻿# Instrucciones de Plantilla
+
+## Autoridad global
+- Las reglas globales reutilizables viven en urbanizacion-toolkit.
+- Esta plantilla no debe competir con toolkit como segunda autoridad del sistema.
+- Si una regla sirve a varios proyectos y no depende del bootstrap, debe salir de aqui.
+- Los proyectos nuevos deben nacer con CONFIG\\project_identity.json, CONFIG\\toolkit.lock.json y CONFIG\\repo_contract.json.
 
 ## Regla critica: control de mojibake y codificacion
 - Ninguna tarea sobre DOCX, XLSX, XML Office o BC3 se dara por terminada sin una verificacion explicita final de codificacion y texto corrupto.
@@ -93,3 +99,5 @@
 - Ejecucion por perfil: `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\run_traceability_profile.ps1 -Profile "base_general" -StrictProfile`.
 - Ejecucion por perfil con conceptos forzados: `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\run_traceability_profile.ps1 -Profile "pluviales_fecales" -Needles "MCG-1.04#","UAC010.3.6","CLP630" -StrictProfile`.
 - Ejecucion global recomendada: `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\run_traceability_profile.ps1 -Profile "todo_integral" -StrictProfile`.
+
+

@@ -1,0 +1,7 @@
+﻿{
+  "schema_version": 1,
+  "status": "bootstrap",
+  "generated_at": "2026-04-22",
+  "project_code": "{{CODIGO_PROYECTO}}",
+  "nodes": []
+}

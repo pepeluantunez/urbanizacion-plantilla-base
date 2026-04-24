@@ -1,4 +1,4 @@
-# MAPA_PROYECTO - {{CODIGO_PROYECTO}} {{NOMBRE_PROYECTO}}
+﻿# MAPA_PROYECTO - {{CODIGO_PROYECTO}} {{NOMBRE_PROYECTO}}
 
 > Completar y mantener breve.
 
@@ -8,7 +8,7 @@ Describir en 3 a 5 lineas que es el proyecto y que disciplinas estan dentro de a
 
 ## Estructura viva del repo
 
-- `MAPA_PROYECTO.md`, `FUENTES_MAESTRAS.md`, `DECISIONES_PROYECTO.md`, `ESTADO_PROYECTO.md`, `TRIAGE.md`
+- `MAPA_PROYECTO.md`, `FUENTES_MAESTRAS.md`, `DECISIONES_PROYECTO.md`, `ESTADO_PROYECTO.md`
 - `DOCS - MEMORIA/`
 - `DOCS - ANEJOS/`
 - `CONFIG/`
@@ -16,6 +16,8 @@ Describir en 3 a 5 lineas que es el proyecto y que disciplinas estan dentro de a
 - `scripts/`
 - `PLANNING/`
 - `CONTROL/`
+- `CONTROL/trazabilidad/`
+- `PLANNING/KANBAN.md`
 
 ## Carpetas activas
 
@@ -40,6 +42,9 @@ Describir en 3 a 5 lineas que es el proyecto y que disciplinas estan dentro de a
 
 Explicar en pocas lineas que documento manda sobre cual y que piezas son derivadas.
 
+La semilla minima de esta red debe arrancar en `CONTROL/trazabilidad/`.
+
 ## Limites de alcance
 
 Dejar claro que disciplinas o partes quedan fuera salvo orden expresa.
+

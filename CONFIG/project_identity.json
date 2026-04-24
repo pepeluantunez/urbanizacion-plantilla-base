@@ -1,0 +1,10 @@
+﻿{
+  "schema_version": 1,
+  "repo_role": "project",
+  "project_code": "{{CODIGO_PROYECTO}}",
+  "project_slug": "{{REPO_PROYECTO}}",
+  "project_name": "{{NOMBRE_PROYECTO}}",
+  "workspace_name": "{{WORKSPACE_CODEX}}",
+  "authoritative_toolkit_repo": "urbanizacion-toolkit",
+  "authoritative_template_repo": "urbanizacion-plantilla-base"
+}

@@ -1,0 +1,42 @@
+﻿{
+    "schema_version":  1,
+    "repo_role":  "project",
+    "required_files":  [
+                           "README.md",
+                           "AGENTS.md",
+                           "MAPA_PROYECTO.md",
+                           "FUENTES_MAESTRAS.md",
+                           "DECISIONES_PROYECTO.md",
+                           "ESTADO_PROYECTO.md",
+                           "CONFIG/project_identity.json",
+                           "CONFIG/toolkit.lock.json",
+                           "PLANNING/KANBAN.md"
+                       ],
+    "required_directories":  [
+                                 "CONFIG",
+                                 "PLANNING",
+                                 "tools",
+                                 "CONTROL"
+                             ],
+    "forbidden_paths":  [
+                            "urbanizacion-toolkit",
+                            "urbanizacion-plantilla-base",
+                            "00_PLANTILLA_BASE"
+                        ],
+    "ignored_nested_git_markers":  [
+                                       ".codex_tmp\\",
+                                       "scratch\\",
+                                       "_archive\\",
+                                       "_ARCHIVO_LOCAL_DOCS\\"
+                                   ],
+    "warn_if_root_markdown_count_gt":  12,
+    "warn_on_root_governance_duplicates":  [
+                                               "TRIAGE.md",
+                                               "COMANDOS_RAPIDOS_MAQUETACION.md",
+                                               "PLANTILLA_ORDEN_TRABAJO.md",
+                                               "SYSTEM_RULES.md",
+                                               "TASK_TYPES.md",
+                                               "IGNORE_DEFAULTS.md",
+                                               "ESTANDARES.md"
+                                           ]
+}

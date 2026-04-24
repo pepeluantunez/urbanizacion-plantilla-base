@@ -1,22 +1,33 @@
-# Plantilla Base de Proyecto
+﻿# Plantilla Base de Proyecto
 
 Base reutilizable para arrancar nuevos proyectos sin copiar ruido.
 
 ## Contenido clave
 
 - `AGENTS.md`
-- `SYSTEM_RULES.md`
-- `TASK_TYPES.md`
-- `IGNORE_DEFAULTS.md`
 - `MAPA_PROYECTO.md`
 - `FUENTES_MAESTRAS.md`
 - `DECISIONES_PROYECTO.md`
 - `ESTADO_PROYECTO.md`
-- `TRIAGE.md`
 - `CHECKLISTS/`
 - `CONFIG/`
+- `CONTROL/trazabilidad/`
 - `scripts/`
 - `tools/`
+- `docs/bootstrap/`
+
+## Autoridad
+
+La autoridad global de reglas reutilizables vive en `urbanizacion-toolkit`.
+
+En esta plantilla solo deben quedar:
+
+- estructura de arranque
+- archivos maestros iniciales de proyecto
+- bootstrap y documentacion de arranque
+- contrato minimo para que un proyecto nazca limpio
+
+No deben copiarse desde aqui reglas globales duplicadas como `SYSTEM_RULES.md`, `TASK_TYPES.md`, `TRIAGE.md` o `IGNORE_DEFAULTS.md`.
 
 ## Bootstrap
 
@@ -33,3 +44,7 @@ Que un proyecto nuevo nazca con:
 - frontera clara entre proyecto, plantilla y toolkit
 - triage previo a lecturas profundas
 - fuentes maestras y estado operativo desde el minuto uno
+- seed minima de trazabilidad y cobertura desde el minuto uno
+
+
+
