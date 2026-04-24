@@ -21,23 +21,74 @@ $ErrorActionPreference = "Stop"
 $scriptDir   = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectRoot = Split-Path -Parent $scriptDir
 
-if ([string]::IsNullOrWhiteSpace($ToolkitPath)) {
-    $candidateSibling = Join-Path (Split-Path $projectRoot -Parent) "urbanizacion-toolkit"
-    $candidateClaudeProjects = Join-Path $env:USERPROFILE `
-        "Documents\Claude\Projects\MEJORA CARRETERA GUADALMAR\PROYECTO 535\535.2\535.2.2 Mejora Carretera Guadalmar\urbanizacion-toolkit"
+function Resolve-ToolkitRepoPath {
+    param(
+        [string]$PreferredPath,
+        [string]$StartPath
+    )
 
-    foreach ($candidate in @($candidateSibling, $candidateClaudeProjects)) {
-        if (-not [string]::IsNullOrWhiteSpace($candidate) -and (Test-Path -LiteralPath $candidate)) {
-            $ToolkitPath = $candidate
-            Write-Host "[sync_from_toolkit] Toolkit encontrado en: $ToolkitPath" -ForegroundColor DarkGray
-            break
+    if (-not [string]::IsNullOrWhiteSpace($PreferredPath)) {
+        try {
+            return (Resolve-Path -LiteralPath $PreferredPath -ErrorAction Stop).Path
+        }
+        catch {
         }
     }
+
+    $repoName = "urbanizacion-toolkit"
+    $startFullPath = (Resolve-Path -LiteralPath $StartPath -ErrorAction Stop).Path
+    $cursor = $startFullPath
+
+    while (-not [string]::IsNullOrWhiteSpace($cursor)) {
+        $item = Get-Item -LiteralPath $cursor -ErrorAction SilentlyContinue
+        if ($item -and $item.PSIsContainer -and $item.Name -ieq $repoName) {
+            return $item.FullName
+        }
+
+        $parent = Split-Path -Parent $cursor
+        if (-not [string]::IsNullOrWhiteSpace($parent)) {
+            $sibling = Join-Path $parent $repoName
+            if (Test-Path -LiteralPath $sibling) {
+                return (Resolve-Path -LiteralPath $sibling -ErrorAction Stop).Path
+            }
+        }
+
+        if ($parent -eq $cursor) {
+            break
+        }
+
+        $cursor = $parent
+    }
+
+    $fallbackRoots = @(
+        (Join-Path $env:USERPROFILE "Documents\Claude\Projects"),
+        (Join-Path $env:USERPROFILE "Documents\Claude")
+    ) | Select-Object -Unique
+
+    foreach ($root in $fallbackRoots) {
+        if (-not (Test-Path -LiteralPath $root)) {
+            continue
+        }
+
+        $match = Get-ChildItem -LiteralPath $root -Directory -Recurse -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -ieq $repoName } |
+            Select-Object -First 1
+
+        if ($match) {
+            return $match.FullName
+        }
+    }
+
+    throw "No se puede resolver el toolkit desde '$startFullPath'."
+}
+
+if ([string]::IsNullOrWhiteSpace($ToolkitPath)) {
+    $ToolkitPath = Resolve-ToolkitRepoPath -StartPath $projectRoot
+    Write-Host "[sync_from_toolkit] Toolkit encontrado en: $ToolkitPath" -ForegroundColor DarkGray
 }
 
 try {
-    $toolkitResolved = Resolve-Path -LiteralPath $ToolkitPath -ErrorAction Stop
-    $toolkitFullPath = $toolkitResolved.Path
+    $toolkitFullPath = Resolve-ToolkitRepoPath -PreferredPath $ToolkitPath -StartPath $projectRoot
 }
 catch {
     Write-Error "No se puede resolver el toolkit en '$ToolkitPath'. Verifica que urbanizacion-toolkit existe como sibling de este repo."
@@ -48,6 +99,8 @@ $syncTargets = @(
     @{ Src = "tools\python\bc3_tools.py";                             Dst = "bc3_tools.py" }
     @{ Src = "tools\python\excel_tools.py";                           Dst = "excel_tools.py" }
     @{ Src = "tools\python\mediciones_validator.py";                  Dst = "mediciones_validator.py" }
+    @{ Src = "tools\automation\resolve_ecosystem_repo.ps1";           Dst = "resolve_ecosystem_repo.ps1" }
+    @{ Src = "tools\automation\find_in_workspace.ps1";                Dst = "find_in_workspace.ps1" }
     @{ Src = "tools\bc3\check_bc3_integrity.ps1";                     Dst = "check_bc3_integrity.ps1" }
     @{ Src = "tools\bc3\check_bc3_import_parity.ps1";                 Dst = "check_bc3_import_parity.ps1" }
     @{ Src = "tools\office\check_docx_tables_consistency.ps1";        Dst = "check_docx_tables_consistency.ps1" }

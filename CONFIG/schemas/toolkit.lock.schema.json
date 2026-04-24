@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Toolkit Lock",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "toolkit_repo",
+    "template_repo",
+    "synced_copy_allowed",
+    "wrappers_allowed",
+    "authorities"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "toolkit_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "template_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "synced_copy_allowed": {
+      "type": "boolean"
+    },
+    "wrappers_allowed": {
+      "type": "boolean"
+    },
+    "authorities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "additionalProperties": false
+}

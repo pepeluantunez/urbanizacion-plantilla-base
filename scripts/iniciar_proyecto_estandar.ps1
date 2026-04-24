@@ -43,6 +43,57 @@ function Resolve-FullPath {
     return $resolved.Path
 }
 
+function Convert-ToLongPath {
+    param([Parameter(Mandatory = $true)][string]$PathValue)
+
+    $fullPath = [IO.Path]::GetFullPath($PathValue)
+    if ($fullPath.StartsWith("\\?\")) {
+        return $fullPath
+    }
+
+    if ($fullPath.StartsWith("\\")) {
+        return "\\?\UNC\" + $fullPath.TrimStart("\")
+    }
+
+    return "\\?\" + $fullPath
+}
+
+function Ensure-DirectoryExists {
+    param([Parameter(Mandatory = $true)][string]$PathValue)
+
+    [void][System.IO.Directory]::CreateDirectory((Convert-ToLongPath -PathValue $PathValue))
+}
+
+function Copy-FileRobust {
+    param(
+        [Parameter(Mandatory = $true)][string]$SourcePath,
+        [Parameter(Mandatory = $true)][string]$DestinationPath
+    )
+
+    $sourceLong = Convert-ToLongPath -PathValue $SourcePath
+    $destinationLong = Convert-ToLongPath -PathValue $DestinationPath
+    [System.IO.File]::Copy($sourceLong, $destinationLong, $true)
+}
+
+function Read-TextFileRobust {
+    param([Parameter(Mandatory = $true)][string]$PathValue)
+
+    return [System.IO.File]::ReadAllText((Convert-ToLongPath -PathValue $PathValue), [System.Text.UTF8Encoding]::new($false))
+}
+
+function Write-TextFileRobust {
+    param(
+        [Parameter(Mandatory = $true)][string]$PathValue,
+        [Parameter(Mandatory = $true)][string]$Content
+    )
+
+    [System.IO.File]::WriteAllText(
+        (Convert-ToLongPath -PathValue $PathValue),
+        $Content,
+        [System.Text.UTF8Encoding]::new($false)
+    )
+}
+
 function ConvertTo-Slug {
     param([Parameter(Mandatory = $true)][string]$Text)
 
@@ -79,6 +130,21 @@ function Copy-DirectoryContent {
         [Parameter(Mandatory = $true)][string]$ToPath
     )
 
+    if (-not (Test-Path -LiteralPath $ToPath)) {
+        Ensure-DirectoryExists -PathValue $ToPath
+    }
+
+    $dirs = Get-ChildItem -LiteralPath $FromPath -Recurse -Directory |
+        Where-Object { $_.FullName -notmatch "\\bin\\|\\obj\\|\\\.git\\" } |
+        Sort-Object FullName
+    foreach ($dir in $dirs) {
+        $relativeDir = $dir.FullName.Substring($FromPath.Length).TrimStart("\")
+        $targetDir = Join-Path $ToPath $relativeDir
+        if (-not (Test-Path -LiteralPath $targetDir)) {
+            Ensure-DirectoryExists -PathValue $targetDir
+        }
+    }
+
     $files = Get-ChildItem -LiteralPath $FromPath -Recurse -File |
         Where-Object {
             $_.Name -notlike "~$*" -and
@@ -91,19 +157,9 @@ function Copy-DirectoryContent {
         $targetFile = Join-Path $ToPath $relative
         $targetDir = Split-Path -Parent $targetFile
         if (-not (Test-Path -LiteralPath $targetDir)) {
-            New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+            Ensure-DirectoryExists -PathValue $targetDir
         }
-        Copy-Item -LiteralPath $file.FullName -Destination $targetFile -Force
-    }
-
-    $dirs = Get-ChildItem -LiteralPath $FromPath -Recurse -Directory |
-        Where-Object { $_.FullName -notmatch "\\bin\\|\\obj\\|\\\.git\\" }
-    foreach ($dir in $dirs) {
-        $relativeDir = $dir.FullName.Substring($FromPath.Length).TrimStart("\")
-        $targetDir = Join-Path $ToPath $relativeDir
-        if (-not (Test-Path -LiteralPath $targetDir)) {
-            New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
-        }
+        Copy-FileRobust -SourcePath $file.FullName -DestinationPath $targetFile
     }
 }
 
@@ -131,9 +187,9 @@ function Copy-TemplateEntry {
 
     $targetDir = Split-Path -Parent $destinationEntry
     if (-not (Test-Path -LiteralPath $targetDir)) {
-        New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+        Ensure-DirectoryExists -PathValue $targetDir
     }
-    Copy-Item -LiteralPath $sourceEntry -Destination $destinationEntry -Force
+    Copy-FileRobust -SourcePath $sourceEntry -DestinationPath $destinationEntry
 }
 
 function Copy-TemplateContent {
@@ -263,13 +319,13 @@ $textFiles = Get-ChildItem -LiteralPath $proyectoPath -Recurse -File |
     Where-Object { $textExtensions -contains $_.Extension.ToLowerInvariant() }
 
 foreach ($file in $textFiles) {
-    $content = Get-Content -LiteralPath $file.FullName -Raw
+    $content = Read-TextFileRobust -PathValue $file.FullName
     $updated = $content
     foreach ($token in $tokenMap.Keys) {
         $updated = $updated.Replace($token, $tokenMap[$token])
     }
     if ($updated -ne $content) {
-        Set-Content -LiteralPath $file.FullName -Value $updated -Encoding UTF8
+        Write-TextFileRobust -PathValue $file.FullName -Content $updated
     }
 }
 

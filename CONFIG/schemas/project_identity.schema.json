@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project Identity",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "repo_role",
+    "project_code",
+    "project_slug",
+    "project_name",
+    "workspace_name",
+    "authoritative_toolkit_repo",
+    "authoritative_template_repo"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "repo_role": {
+      "type": "string",
+      "enum": ["project", "template", "toolkit"]
+    },
+    "project_code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_slug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authoritative_toolkit_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authoritative_template_repo": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

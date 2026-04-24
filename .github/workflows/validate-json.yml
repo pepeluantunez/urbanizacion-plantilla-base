@@ -1,0 +1,32 @@
+name: Validate JSON
+
+on:
+  pull_request:
+    paths:
+      - 'CONFIG/**/*.json'
+      - 'CONTROL/trazabilidad/*.json'
+  push:
+    branches:
+      - main
+    paths:
+      - 'CONFIG/**/*.json'
+      - 'CONTROL/trazabilidad/*.json'
+
+jobs:
+  json-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install check-jsonschema
+        run: python -m pip install check-jsonschema
+      - name: Validate bootstrap manifest
+        run: check-jsonschema --schemafile CONFIG/schemas/bootstrap.copy-manifest.schema.json CONFIG/bootstrap.copy-manifest.json
+      - name: Validate project identity
+        run: check-jsonschema --schemafile CONFIG/schemas/project_identity.schema.json CONFIG/project_identity.json
+      - name: Validate repo contract
+        run: check-jsonschema --schemafile CONFIG/schemas/repo_contract.schema.json CONFIG/repo_contract.json
+      - name: Validate toolkit lock
+        run: check-jsonschema --schemafile CONFIG/schemas/toolkit.lock.schema.json CONFIG/toolkit.lock.json

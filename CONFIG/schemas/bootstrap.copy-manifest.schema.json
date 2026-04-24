@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bootstrap Copy Manifest",
+  "type": "object",
+  "required": ["include_paths"],
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "include_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

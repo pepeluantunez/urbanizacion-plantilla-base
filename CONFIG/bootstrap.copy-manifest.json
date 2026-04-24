@@ -48,8 +48,7 @@
                           "tools/check_repo_contract.ps1",
                           "CONTROL/trazabilidad",
                           "PLANNING/KANBAN.md",
-                          "tools/check_traceability_graph_seed.ps1"
-                          ,
+                          "tools/check_traceability_graph_seed.ps1",
                           "tools/sync_from_toolkit.ps1"
                       ]
 }
