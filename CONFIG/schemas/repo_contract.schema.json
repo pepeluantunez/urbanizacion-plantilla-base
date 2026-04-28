@@ -32,9 +32,48 @@
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
     },
+    "forbidden_directory_names": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
     "ignored_nested_git_markers": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
+    },
+    "required_asset_policy_files": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "heavy_asset_candidates": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "type": "object",
+            "required": [
+              "path"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "declaration_keys": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
     },
     "warn_if_root_markdown_count_gt": {
       "type": "integer",

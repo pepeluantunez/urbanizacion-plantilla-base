@@ -7,73 +7,10 @@
       "repo": "urbanizacion-toolkit"
     },
     "plantilla": {
-      "repo": "urbanizacion-plantilla-base"
+      "path": ".."
     }
   },
   "items": [
-    {
-      "id": "bc3-tools",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/bc3_tools.py",
-        "toolkit": "tools/python/bc3_tools.py"
-      }
-    },
-    {
-      "id": "excel-tools",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/excel_tools.py",
-        "toolkit": "tools/python/excel_tools.py"
-      }
-    },
-    {
-      "id": "mediciones-validator",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/mediciones_validator.py",
-        "toolkit": "tools/python/mediciones_validator.py"
-      }
-    },
-    {
-      "id": "resolve-ecosystem-repo",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/resolve_ecosystem_repo.ps1",
-        "toolkit": "tools/automation/resolve_ecosystem_repo.ps1"
-      }
-    },
-    {
-      "id": "find-in-workspace",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/find_in_workspace.ps1",
-        "toolkit": "tools/automation/find_in_workspace.ps1"
-      }
-    },
-    {
-      "id": "check-ecosystem-alignment-local",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/check_ecosystem_alignment.ps1",
-        "toolkit": "tools/automation/check_ecosystem_alignment.ps1"
-      }
-    },
-    {
-      "id": "check-machine-guard",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/check_machine_guard.ps1",
-        "toolkit": "tools/automation/check_machine_guard.ps1"
-      }
-    },
     {
       "id": "check-office-mojibake",
       "owner": "toolkit",
@@ -111,12 +48,12 @@
       }
     },
     {
-      "id": "check-bc3-import-parity",
+      "id": "check-repo-contract",
       "owner": "toolkit",
       "mode": "synced-copy",
       "paths": {
-        "obra": "tools/check_bc3_import_parity.ps1",
-        "toolkit": "tools/bc3/check_bc3_import_parity.ps1"
+        "obra": "tools/check_repo_contract.ps1",
+        "toolkit": "scripts/check_repo_contract.ps1"
       }
     },
     {
@@ -135,24 +72,6 @@
       "paths": {
         "obra": "tools/run_traceability_profile.ps1",
         "toolkit": "tools/traceability/run_traceability_profile.ps1"
-      }
-    },
-    {
-      "id": "skill-error-logger",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/skill_error_logger.ps1",
-        "toolkit": "tools/learning/skill_error_logger.ps1"
-      }
-    },
-    {
-      "id": "skill-self-improve",
-      "owner": "toolkit",
-      "mode": "synced-copy",
-      "paths": {
-        "obra": "tools/skill_self_improve.ps1",
-        "toolkit": "tools/learning/skill_self_improve.ps1"
       }
     },
     {

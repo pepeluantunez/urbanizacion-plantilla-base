@@ -5,6 +5,8 @@
 3. Rellenar `CONFIG/proyecto.template.json`.
 4. Ejecutar `scripts/iniciar_proyecto_estandar.ps1`.
 5. Si aplica, pasar `-ToolkitRepoPath` para instalar el toolkit reusable durante el bootstrap.
-6. Revisar `AGENTS.md`, `.github/`, `CONFIG/trazabilidad_profiles.json` y `catalog/CATALOG.md` si el toolkit se instalo.
-7. Confirmar `MANIFEST_VIGENCIA.md` inicial en `DOCS/` y `PRESUPUESTO/`.
-8. Hacer primer commit de bootstrap.
+6. Revisar `AGENTS.md`, `SYNC_POLICY.md`, `ACTIVE_SOURCES.md` y `LOCAL_ONLY_ASSETS.md`.
+7. Si el toolkit se instalo, revisar `catalog/asset_policies.json` y usar `scripts/check_ecosystem_health.ps1` como gate estructural.
+8. Confirmar `MANIFEST_VIGENCIA.md` inicial en `DOCS/` y `PRESUPUESTO/`.
+9. Ejecutar `tools/check_repo_contract.ps1`.
+10. Hacer primer commit de bootstrap.

@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  1,
-    "repo_role":  "project",
+    "repo_role":  "template",
     "required_files":  [
                            "README.md",
                            "AGENTS.md",
@@ -8,6 +8,9 @@
                            "FUENTES_MAESTRAS.md",
                            "DECISIONES_PROYECTO.md",
                            "ESTADO_PROYECTO.md",
+                           "ACTIVE_SOURCES.md",
+                           "LOCAL_ONLY_ASSETS.md",
+                           "SYNC_POLICY.md",
                            "CONFIG/project_identity.json",
                            "CONFIG/ecosystem_alignment_manifest.json",
                            "CONFIG/toolkit.lock.json",
@@ -24,12 +27,73 @@
                             "urbanizacion-plantilla-base",
                             "00_PLANTILLA_BASE"
                         ],
+    "forbidden_directory_names":  [
+                                      "urbanizacion-toolkit",
+                                      "urbanizacion-plantilla-base",
+                                      "00_PLANTILLA_BASE"
+                                  ],
     "ignored_nested_git_markers":  [
                                        ".codex_tmp\\",
                                        "scratch\\",
                                        "_archive\\",
                                        "_ARCHIVO_LOCAL_DOCS\\"
                                    ],
+    "required_asset_policy_files":  [
+                                        "ACTIVE_SOURCES.md",
+                                        "LOCAL_ONLY_ASSETS.md"
+                                    ],
+    "heavy_asset_candidates":  [
+                                   {
+                                       "path":  "PLANOS",
+                                       "declaration_keys":  [
+                                                                "PLANOS"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "BASES_PRECIOS",
+                                       "declaration_keys":  [
+                                                                "BASES_PRECIOS"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "NORMATIVA/00_fuentes_pdf",
+                                       "declaration_keys":  [
+                                                                "NORMATIVA/00_fuentes_pdf",
+                                                                "fuentes_pdf"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "DOCS/Documentos de Trabajo/1.- Reportaje Fotografico",
+                                       "declaration_keys":  [
+                                                                "Reportaje Fotografico",
+                                                                "Reportaje Fotográfico"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "DOCS/Documentos de Trabajo/17.- Seguridad y Salud/PLANOS/RefExt",
+                                       "declaration_keys":  [
+                                                                "RefExt"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "PRESUPUESTO/ENTREGA_PRESTO_LIMPIA",
+                                       "declaration_keys":  [
+                                                                "ENTREGA_PRESTO_LIMPIA"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "PRESUPUESTO/IMPORTAR_PRESTO_SOLO_FINAL",
+                                       "declaration_keys":  [
+                                                                "IMPORTAR_PRESTO_SOLO_FINAL"
+                                                            ]
+                                   },
+                                   {
+                                       "path":  "PRESUPUESTO/INFORMES",
+                                       "declaration_keys":  [
+                                                                "INFORMES"
+                                                            ]
+                                   }
+                               ],
     "warn_if_root_markdown_count_gt":  12,
     "warn_on_root_governance_duplicates":  [
                                                "TRIAGE.md",
