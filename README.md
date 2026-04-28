@@ -12,6 +12,7 @@ Base reutilizable para arrancar nuevos proyectos sin copiar ruido.
 - `CHECKLISTS/`
 - `CONFIG/`
 - `CONTROL/trazabilidad/`
+- `NORMATIVA/`
 - `scripts/`
 - `tools/`
 - `docs/bootstrap/`
@@ -45,6 +46,7 @@ Que un proyecto nuevo nazca con:
 - triage previo a lecturas profundas
 - fuentes maestras y estado operativo desde el minuto uno
 - seed minima de trazabilidad y cobertura desde el minuto uno
+- base normativo consultable sin depender de abrir PDFs pesados en cada revision
 
 ## Guarda minima
 

@@ -31,6 +31,7 @@ These items must stay inside each project repo and are never authority for toolk
 - BC3 maestro of a specific expediente
 - working annexes and active office files
 - project-specific reports, audits and exports
+- normative corpus outputs such as `NORMATIVA/01_texto_extraido/`, `NORMATIVA/02_indices/` and `NORMATIVA/03_matrices/`
 
 ## Hard rule
 
@@ -39,3 +40,5 @@ If a rule saves time in two or more projects without knowing project names, it s
 If a file is needed in every new repo before any project-specific editing starts, it belongs to the template.
 
 If a file mentions a specific project code, route, annex or deliverable, it stays in the project repo.
+
+If the file is a reusable extractor, search tool or policy for normativa, it belongs to toolkit; if it is the extracted corpus for one expediente, it belongs to the project.

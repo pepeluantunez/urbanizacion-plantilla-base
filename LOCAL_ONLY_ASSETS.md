@@ -18,3 +18,5 @@ List heavy, unstable or external materials that should not enter normal Git hist
 ## Rule
 
 If one of these paths becomes canonical for a project, document that decision explicitly in `ACTIVE_SOURCES.md`.
+
+`NORMATIVA/01_texto_extraido/`, `NORMATIVA/02_indices/` and `NORMATIVA/03_matrices/` are different: they are derived knowledge layers and may be versioned when they improve project operability.

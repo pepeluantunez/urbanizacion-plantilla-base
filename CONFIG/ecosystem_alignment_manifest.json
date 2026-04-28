@@ -57,6 +57,42 @@
       }
     },
     {
+      "id": "check-normativa-scope",
+      "owner": "toolkit",
+      "mode": "synced-copy",
+      "paths": {
+        "obra": "tools/check_normativa_scope.ps1",
+        "toolkit": "tools/normativa/check_normativa_scope.ps1"
+      }
+    },
+    {
+      "id": "build-normativa-corpus",
+      "owner": "toolkit",
+      "mode": "synced-copy",
+      "paths": {
+        "obra": "tools/build_normativa_corpus.ps1",
+        "toolkit": "tools/normativa/build_normativa_corpus.ps1"
+      }
+    },
+    {
+      "id": "build-normativa-corpus-py",
+      "owner": "toolkit",
+      "mode": "synced-copy",
+      "paths": {
+        "obra": "tools/build_normativa_corpus.py",
+        "toolkit": "tools/normativa/build_normativa_corpus.py"
+      }
+    },
+    {
+      "id": "search-normativa-corpus",
+      "owner": "toolkit",
+      "mode": "synced-copy",
+      "paths": {
+        "obra": "tools/search_normativa_corpus.ps1",
+        "toolkit": "tools/normativa/search_normativa_corpus.ps1"
+      }
+    },
+    {
       "id": "check-traceability-consistency",
       "owner": "toolkit",
       "mode": "synced-copy",

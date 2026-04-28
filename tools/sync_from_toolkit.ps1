@@ -65,6 +65,10 @@ $Mapeo = @(
     @{ Origen = "tools\civil3d\sync_civil3d_inputs.ps1";                 Destino = "tools\sync_civil3d_inputs.ps1" }
     @{ Origen = "catalog\civil3d_input_families.json";                   Destino = "CONFIG\civil3d_input_families.json" }
     @{ Origen = "tools\bc3\check_bc3_encoding.ps1";                      Destino = "tools\check_bc3_encoding.ps1" }
+    @{ Origen = "tools\normativa\check_normativa_scope.ps1";             Destino = "tools\check_normativa_scope.ps1" }
+    @{ Origen = "tools\normativa\build_normativa_corpus.ps1";            Destino = "tools\build_normativa_corpus.ps1" }
+    @{ Origen = "tools\normativa\build_normativa_corpus.py";             Destino = "tools\build_normativa_corpus.py" }
+    @{ Origen = "tools\normativa\search_normativa_corpus.ps1";           Destino = "tools\search_normativa_corpus.ps1" }
     @{ Origen = "tools\automation\check_tools_sync.ps1";                 Destino = "tools\check_tools_sync.ps1" }
     @{ Origen = "scripts\check_repo_contract.ps1";                       Destino = "tools\check_repo_contract.ps1" }
 )
