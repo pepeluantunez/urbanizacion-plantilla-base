@@ -1,34 +1,87 @@
-{
-  "base_general": [
-    "PRESUPUESTO\\{{CODIGO_PROYECTO}}.bc3",
-    "PRESUPUESTO\\AUDITORIA_TRAZABILIDAD.md",
-    "DOCS\\Documentos de Trabajo\\4.- Trazado, Replanteo y Mediciones Auxiliares",
-    "DOCS\\Documentos de Trabajo\\Matriz_Trazabilidad.xlsx"
-  ],
-  "pluviales_fecales": [
-    "PRESUPUESTO\\{{CODIGO_PROYECTO}}.bc3",
-    "DOCS\\Documentos de Trabajo\\7.- Red de Saneamiento - Pluviales",
-    "DOCS\\Documentos de Trabajo\\8.- Red de Saneamiento - Fecales"
-  ],
-  "control_calidad_plan_obra": [
-    "PRESUPUESTO\\{{CODIGO_PROYECTO}}.bc3",
-    "DOCS\\Documentos de Trabajo\\14.- Control de Calidad",
-    "DOCS\\Documentos de Trabajo\\15.- Plan de Obra",
-    "DOCS\\Documentos de Trabajo\\17.- Seguridad y Salud"
-  ],
-  "residuos_sys": [
-    "PRESUPUESTO\\{{CODIGO_PROYECTO}}.bc3",
-    "DOCS\\Documentos de Trabajo\\13.- Estudio de Gestion de Residuos",
-    "DOCS\\Documentos de Trabajo\\17.- Seguridad y Salud"
-  ],
-  "todo_integral": [
-    "PRESUPUESTO\\{{CODIGO_PROYECTO}}.bc3",
-    "DOCS\\Documentos de Trabajo\\4.- Trazado, Replanteo y Mediciones Auxiliares",
-    "DOCS\\Documentos de Trabajo\\7.- Red de Saneamiento - Pluviales",
-    "DOCS\\Documentos de Trabajo\\8.- Red de Saneamiento - Fecales",
-    "DOCS\\Documentos de Trabajo\\13.- Estudio de Gestion de Residuos",
-    "DOCS\\Documentos de Trabajo\\14.- Control de Calidad",
-    "DOCS\\Documentos de Trabajo\\15.- Plan de Obra",
-    "DOCS\\Documentos de Trabajo\\17.- Seguridad y Salud"
-  ]
+﻿{
+  "base_general": {
+    "paths": [
+      "PRESUPUESTO",
+      "DOCS - MEMORIA",
+      "DOCS - ANEJOS\\4.- Trazado, Replanteo y Mediciones Auxiliares",
+      "CONTROL"
+    ],
+    "required_categories": [
+      "Word",
+      "Text"
+    ],
+    "needles": [
+      "trazabilidad",
+      "mediciones",
+      "proyecto"
+    ]
+  },
+  "pluviales_fecales": {
+    "paths": [
+      "PRESUPUESTO",
+      "DOCS - ANEJOS\\7.- Red de Saneamiento - Pluviales",
+      "DOCS - ANEJOS\\8.- Red de Saneamiento - Fecales"
+    ],
+    "required_categories": [
+      "Word",
+      "Text"
+    ],
+    "needles": [
+      "trazabilidad",
+      "saneamiento",
+      "red"
+    ]
+  },
+  "control_calidad_plan_obra": {
+    "paths": [
+      "PRESUPUESTO",
+      "DOCS - ANEJOS\\14.- Control de Calidad",
+      "DOCS - ANEJOS\\15.- Plan de Obra",
+      "DOCS - ANEJOS\\17.- Seguridad y Salud"
+    ],
+    "required_categories": [
+      "Word",
+      "Text"
+    ],
+    "needles": [
+      "proyecto"
+    ]
+  },
+  "residuos_sys": {
+    "paths": [
+      "PRESUPUESTO",
+      "DOCS - ANEJOS\\13.- Estudio de Gestion de Residuos",
+      "DOCS - ANEJOS\\17.- Seguridad y Salud"
+    ],
+    "required_categories": [
+      "Word",
+      "Excel",
+      "Text"
+    ],
+    "needles": [
+      "residuos",
+      "seguridad"
+    ]
+  },
+  "todo_integral": {
+    "paths": [
+      "PRESUPUESTO",
+      "DOCS - MEMORIA",
+      "DOCS - ANEJOS\\4.- Trazado, Replanteo y Mediciones Auxiliares",
+      "DOCS - ANEJOS\\7.- Red de Saneamiento - Pluviales",
+      "DOCS - ANEJOS\\8.- Red de Saneamiento - Fecales",
+      "DOCS - ANEJOS\\13.- Estudio de Gestion de Residuos",
+      "DOCS - ANEJOS\\14.- Control de Calidad",
+      "DOCS - ANEJOS\\15.- Plan de Obra",
+      "DOCS - ANEJOS\\17.- Seguridad y Salud",
+      "CONTROL"
+    ],
+    "required_categories": [
+      "Word",
+      "Text"
+    ],
+    "needles": [
+      "proyecto"
+    ]
+  }
 }

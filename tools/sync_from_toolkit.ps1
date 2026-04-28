@@ -1,148 +1,146 @@
 <#
 .SYNOPSIS
-    Sincroniza herramientas compartidas desde urbanizacion-toolkit al tools/ local.
+    Sincroniza las herramientas del proyecto con la version mas reciente del toolkit.
 
 .DESCRIPTION
-    Copia los scripts Python canonicos y varios checks PowerShell compartidos desde
-    urbanizacion-toolkit al directorio tools/ del proyecto.
-    Ejecutar al arrancar el proyecto y cuando se actualice el toolkit.
+    Copia las herramientas compartidas de urbanizacion-toolkit al proyecto,
+    incluyendo checks, trazabilidad y automatismos Civil 3D reutilizables.
 
-.EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\sync_from_toolkit.ps1
+.PARAMETER ToolkitPath
+    Ruta al repositorio urbanizacion-toolkit. Si se omite, se busca automaticamente.
 #>
 
-[CmdletBinding()]
 param(
+    [Parameter(Mandatory = $false)]
     [string]$ToolkitPath = ""
 )
 
 $ErrorActionPreference = "Stop"
+$ProjectRoot = Split-Path $PSScriptRoot -Parent
 
-$scriptDir   = Split-Path -Parent $MyInvocation.MyCommand.Path
-$projectRoot = Split-Path -Parent $scriptDir
+if ($ToolkitPath -eq "") {
+    $ProjectsRoot = Split-Path $ProjectRoot -Parent
+    # Ubicacion canonica tras la reorganizacion 2026-04-27
+    $CandidatoCanónico  = Join-Path $env:USERPROFILE "Documents\Claude\Projects\urbanizacion-toolkit"
+    # Hermano directo (si el proyecto vive en la misma carpeta que el toolkit)
+    $CandidatoHermano   = Join-Path $ProjectsRoot "urbanizacion-toolkit"
+    # GitHub como ultimo recurso
+    $CandidatoGit       = Join-Path $env:USERPROFILE "Documents\GitHub\urbanizacion-toolkit"
+    # Path legacy de Guadalmar — mantenido por compatibilidad temporal, se eliminara
+    $CandidatoLegacy    = Join-Path $env:USERPROFILE `
+        "Documents\Claude\Projects\MEJORA CARRETERA GUADALMAR\PROYECTO 535\535.2\535.2.2 Mejora Carretera Guadalmar\urbanizacion-toolkit"
 
-function Resolve-ToolkitRepoPath {
-    param(
-        [string]$PreferredPath,
-        [string]$StartPath
-    )
-
-    if (-not [string]::IsNullOrWhiteSpace($PreferredPath)) {
-        try {
-            return (Resolve-Path -LiteralPath $PreferredPath -ErrorAction Stop).Path
-        }
-        catch {
-        }
-    }
-
-    $repoName = "urbanizacion-toolkit"
-    $startFullPath = (Resolve-Path -LiteralPath $StartPath -ErrorAction Stop).Path
-    $cursor = $startFullPath
-
-    while (-not [string]::IsNullOrWhiteSpace($cursor)) {
-        $item = Get-Item -LiteralPath $cursor -ErrorAction SilentlyContinue
-        if ($item -and $item.PSIsContainer -and $item.Name -ieq $repoName) {
-            return $item.FullName
-        }
-
-        $parent = Split-Path -Parent $cursor
-        if (-not [string]::IsNullOrWhiteSpace($parent)) {
-            $sibling = Join-Path $parent $repoName
-            if (Test-Path -LiteralPath $sibling) {
-                return (Resolve-Path -LiteralPath $sibling -ErrorAction Stop).Path
-            }
-        }
-
-        if ($parent -eq $cursor) {
+    foreach ($Candidato in @($CandidatoCanónico, $CandidatoHermano, $CandidatoGit, $CandidatoLegacy)) {
+        if (Test-Path -LiteralPath $Candidato) {
+            $ToolkitPath = $Candidato
+            Write-Host "[sync_from_toolkit] Toolkit encontrado en: $ToolkitPath" -ForegroundColor DarkGray
             break
         }
-
-        $cursor = $parent
     }
-
-    $fallbackRoots = @(
-        (Join-Path $env:USERPROFILE "Documents\Claude\Projects"),
-        (Join-Path $env:USERPROFILE "Documents\Claude")
-    ) | Select-Object -Unique
-
-    foreach ($root in $fallbackRoots) {
-        if (-not (Test-Path -LiteralPath $root)) {
-            continue
-        }
-
-        $match = Get-ChildItem -LiteralPath $root -Directory -Recurse -ErrorAction SilentlyContinue |
-            Where-Object { $_.Name -ieq $repoName } |
-            Select-Object -First 1
-
-        if ($match) {
-            return $match.FullName
-        }
-    }
-
-    throw "No se puede resolver el toolkit desde '$startFullPath'."
 }
 
-if ([string]::IsNullOrWhiteSpace($ToolkitPath)) {
-    $ToolkitPath = Resolve-ToolkitRepoPath -StartPath $projectRoot
-    Write-Host "[sync_from_toolkit] Toolkit encontrado en: $ToolkitPath" -ForegroundColor DarkGray
+if ($ToolkitPath -eq "" -or -not (Test-Path -LiteralPath $ToolkitPath)) {
+    throw "No se encuentra el toolkit. Especifica la ruta con -ToolkitPath '<ruta>'."
 }
 
-try {
-    $toolkitFullPath = Resolve-ToolkitRepoPath -PreferredPath $ToolkitPath -StartPath $projectRoot
-}
-catch {
-    Write-Error "No se puede resolver el toolkit en '$ToolkitPath'. Verifica que urbanizacion-toolkit existe como sibling de este repo."
-    exit 1
-}
-
-$syncTargets = @(
-    @{ Src = "tools\python\bc3_tools.py";                             Dst = "bc3_tools.py" }
-    @{ Src = "tools\python\excel_tools.py";                           Dst = "excel_tools.py" }
-    @{ Src = "tools\python\mediciones_validator.py";                  Dst = "mediciones_validator.py" }
-    @{ Src = "tools\automation\resolve_ecosystem_repo.ps1";           Dst = "resolve_ecosystem_repo.ps1" }
-    @{ Src = "tools\automation\find_in_workspace.ps1";                Dst = "find_in_workspace.ps1" }
-    @{ Src = "tools\automation\check_ecosystem_alignment.ps1";        Dst = "check_ecosystem_alignment.ps1" }
-    @{ Src = "tools\automation\check_machine_guard.ps1";              Dst = "check_machine_guard.ps1" }
-    @{ Src = "tools\automation\update_project_foundation.ps1";        Dst = "update_project_foundation.ps1" }
-    @{ Src = "tools\bc3\check_bc3_integrity.ps1";                     Dst = "check_bc3_integrity.ps1" }
-    @{ Src = "tools\bc3\check_bc3_import_parity.ps1";                 Dst = "check_bc3_import_parity.ps1" }
-    @{ Src = "tools\office\check_docx_tables_consistency.ps1";        Dst = "check_docx_tables_consistency.ps1" }
-    @{ Src = "tools\office\check_excel_formula_guard.ps1";            Dst = "check_excel_formula_guard.ps1" }
-    @{ Src = "tools\office\check_office_mojibake.ps1";                Dst = "check_office_mojibake.ps1" }
-    @{ Src = "tools\traceability\check_traceability_consistency.ps1"; Dst = "check_traceability_consistency.ps1" }
-    @{ Src = "tools\traceability\run_traceability_profile.ps1";       Dst = "run_traceability_profile.ps1" }
-    @{ Src = "tools\learning\skill_error_logger.ps1";                 Dst = "skill_error_logger.ps1" }
-    @{ Src = "tools\learning\skill_self_improve.ps1";                 Dst = "skill_self_improve.ps1" }
+$Mapeo = @(
+    @{ Origen = "tools\python\bc3_tools.py";                             Destino = "tools\bc3_tools.py" }
+    @{ Origen = "tools\python\excel_tools.py";                           Destino = "tools\excel_tools.py" }
+    @{ Origen = "tools\python\mediciones_validator.py";                  Destino = "tools\mediciones_validator.py" }
+    @{ Origen = "tools\bc3\check_bc3_integrity.ps1";                     Destino = "tools\check_bc3_integrity.ps1" }
+    @{ Origen = "tools\bc3\check_bc3_import_parity.ps1";                 Destino = "tools\check_bc3_import_parity.ps1" }
+    @{ Origen = "tools\office\check_docx_tables_consistency.ps1";        Destino = "tools\check_docx_tables_consistency.ps1" }
+    @{ Origen = "tools\office\check_excel_formula_guard.ps1";            Destino = "tools\check_excel_formula_guard.ps1" }
+    @{ Origen = "tools\office\check_office_mojibake.ps1";                Destino = "tools\check_office_mojibake.ps1" }
+    @{ Origen = "tools\traceability\check_traceability_consistency.ps1"; Destino = "tools\check_traceability_consistency.ps1" }
+    @{ Origen = "tools\traceability\run_traceability_profile.ps1";       Destino = "tools\run_traceability_profile.ps1" }
+    @{ Origen = "tools\learning\skill_error_logger.ps1";                 Destino = "tools\skill_error_logger.ps1" }
+    @{ Origen = "tools\learning\skill_self_improve.ps1";                 Destino = "tools\skill_self_improve.ps1" }
+    @{ Origen = "tools\civil3d\xml_excel_helpers.ps1";                   Destino = "tools\xml_excel_helpers.ps1" }
+    @{ Origen = "tools\civil3d\civil3d_path_helpers.ps1";                Destino = "tools\civil3d_path_helpers.ps1" }
+    @{ Origen = "tools\civil3d\build_anejo4_alignment_pk_package.ps1";   Destino = "tools\build_anejo4_alignment_pk_package.ps1" }
+    @{ Origen = "tools\civil3d\build_anejo4_html_word_traceability.ps1"; Destino = "tools\build_anejo4_html_word_traceability.ps1" }
+    @{ Origen = "tools\civil3d\update_anejo4_docx_pk.ps1";               Destino = "tools\update_anejo4_docx_pk.ps1" }
+    @{ Origen = "tools\civil3d\build_network_measurements.ps1";          Destino = "tools\build_network_measurements.ps1" }
+    @{ Origen = "tools\civil3d\sync_civil3d_inputs.ps1";                 Destino = "tools\sync_civil3d_inputs.ps1" }
+    @{ Origen = "catalog\civil3d_input_families.json";                   Destino = "CONFIG\civil3d_input_families.json" }
+    @{ Origen = "tools\bc3\check_bc3_encoding.ps1";                      Destino = "tools\check_bc3_encoding.ps1" }
+    @{ Origen = "tools\automation\check_tools_sync.ps1";                 Destino = "tools\check_tools_sync.ps1" }
+    @{ Origen = "scripts\check_repo_contract.ps1";                       Destino = "tools\check_repo_contract.ps1" }
 )
 
-$localTools = Join-Path $projectRoot "tools"
-if (-not (Test-Path -LiteralPath $localTools)) {
-    New-Item -ItemType Directory -Path $localTools -Force | Out-Null
-}
+$Actualizados = 0
+$SinCambios = 0
 
-$ok = 0
-$warn = 0
+foreach ($Entry in $Mapeo) {
+    $Src = Join-Path $ToolkitPath $Entry.Origen
+    $Dst = Join-Path $ProjectRoot $Entry.Destino
 
-foreach ($entry in $syncTargets) {
-    $srcPath = Join-Path $toolkitFullPath $entry.Src
-    $dstPath = Join-Path $localTools $entry.Dst
-
-    if (-not (Test-Path -LiteralPath $srcPath)) {
-        Write-Warning ("  [AVISO] No encontrado en toolkit: {0} - se omite." -f $entry.Src)
-        $warn++
+    if (-not (Test-Path -LiteralPath $Src)) {
+        Write-Warning "  No encontrado en toolkit: $($Entry.Origen)"
         continue
     }
 
-    Copy-Item -LiteralPath $srcPath -Destination $dstPath -Force
-    Write-Host ("  [OK] {0} -> tools\{1}" -f $entry.Src, $entry.Dst) -ForegroundColor Green
-    $ok++
+    $DstDir = Split-Path -Parent $Dst
+    if (-not (Test-Path -LiteralPath $DstDir)) {
+        New-Item -ItemType Directory -Path $DstDir -Force | Out-Null
+    }
+
+    $HashSrc = (Get-FileHash -LiteralPath $Src -Algorithm MD5).Hash
+    $HashDst = if (Test-Path -LiteralPath $Dst) {
+        (Get-FileHash -LiteralPath $Dst -Algorithm MD5).Hash
+    }
+    else {
+        ""
+    }
+
+    if ($HashSrc -eq $HashDst) {
+        Write-Host "  Sin cambios: $($Entry.Destino)" -ForegroundColor DarkGray
+        $SinCambios++
+    }
+    else {
+        Copy-Item -LiteralPath $Src -Destination $Dst -Force
+        Write-Host "  Actualizado: $($Entry.Destino)" -ForegroundColor Green
+        $Actualizados++
+    }
+}
+
+# --- Sincronizar skills del toolkit ---
+$SkillsToolkitPath = Join-Path $ToolkitPath "skills"
+if (Test-Path -LiteralPath $SkillsToolkitPath) {
+    $SkillsDestPath = Join-Path $ProjectRoot ".claude\skills"
+    $SkillDirs = Get-ChildItem -LiteralPath $SkillsToolkitPath -Directory
+
+    foreach ($SkillDir in $SkillDirs) {
+        $DstSkill = Join-Path $SkillsDestPath $SkillDir.Name
+        if (-not (Test-Path -LiteralPath $DstSkill)) {
+            New-Item -ItemType Directory -Path $DstSkill -Force | Out-Null
+        }
+
+        $SkillFiles = Get-ChildItem -LiteralPath $SkillDir.FullName -Recurse -File
+        foreach ($sf in $SkillFiles) {
+            $relative = $sf.FullName.Substring($SkillDir.FullName.Length).TrimStart("\")
+            $dstFile  = Join-Path $DstSkill $relative
+            $dstDir   = Split-Path -Parent $dstFile
+            if (-not (Test-Path -LiteralPath $dstDir)) {
+                New-Item -ItemType Directory -Path $dstDir -Force | Out-Null
+            }
+
+            $hashSrc = (Get-FileHash -LiteralPath $sf.FullName -Algorithm MD5).Hash
+            $hashDst = if (Test-Path -LiteralPath $dstFile) {
+                (Get-FileHash -LiteralPath $dstFile -Algorithm MD5).Hash
+            } else { "" }
+
+            if ($hashSrc -eq $hashDst) {
+                $SinCambios++
+            } else {
+                Copy-Item -LiteralPath $sf.FullName -Destination $dstFile -Force
+                Write-Host "  Skill actualizada: $($SkillDir.Name)\$relative" -ForegroundColor Green
+                $Actualizados++
+            }
+        }
+    }
 }
 
 Write-Host ""
-if ($warn -eq 0) {
-    Write-Host "Sincronizacion completada: $ok archivo(s) copiado(s)." -ForegroundColor Green
-}
-else {
-    Write-Host "Sincronizacion parcial: $ok copiado(s), $warn no encontrado(s) en toolkit." -ForegroundColor Yellow
-    Write-Host 'Verifica que urbanizacion-toolkit esta actualizado y contiene tools\python, tools\bc3, tools\office, tools\traceability y tools\learning.'
-}
+Write-Host "[sync_from_toolkit] Completado: $Actualizados actualizado(s), $SinCambios sin cambios." -ForegroundColor Cyan

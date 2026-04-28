@@ -6,9 +6,12 @@
 
 ---
 
-## Sincronizacion de scripts antes de empezar
+## Al arrancar cualquier sesion de trabajo
 
-**Obligatorio al arrancar cualquier sesion de trabajo nueva:**
+**1. Leer lecciones operativas del proyecto:**
+`CONTROL/lecciones_operativas.md` — reglas derivadas de correcciones reales. Leer antes de cualquier tarea no trivial.
+
+**2. Sincronizar scripts desde el toolkit:**
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\sync_from_toolkit.ps1
@@ -16,6 +19,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\sync_from_toolkit.ps
 
 Los scripts de `tools/` (bc3_tools.py, excel_tools.py, mediciones_validator.py) se sincronizan desde `urbanizacion-toolkit`.
 No editar esos archivos directamente en este repo. Cualquier cambio va al toolkit primero.
+
+**3. Auto-mejora obligatoria:**
+Después de cada corrección del usuario, añadir la regla derivada a `CONTROL/lecciones_operativas.md` antes de cerrar la sesión.
 
 ---
 

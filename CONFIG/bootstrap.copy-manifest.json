@@ -48,8 +48,12 @@
                           "tools/run_traceability_profile.ps1",
                           "tools/check_repo_contract.ps1",
                           "CONTROL/trazabilidad",
+                          "CONTROL/lecciones_operativas.md",
                           "PLANNING/KANBAN.md",
                           "tools/check_traceability_graph_seed.ps1",
-                          "tools/sync_from_toolkit.ps1"
+                          "tools/sync_from_toolkit.ps1",
+                          "tools/check_bc3_encoding.ps1",
+                          "tools/check_tools_sync.ps1",
+                          "nuevo_proyecto.ps1"
                       ]
 }
